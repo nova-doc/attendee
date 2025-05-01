@@ -3,7 +3,9 @@ import os
 from .base import *
 
 DEBUG = True
-ALLOWED_HOSTS = ["tendee-stripe-hooks.ngrok.io", "localhost"]
+ALLOWED_HOSTS = ["attendee.nova-doc.com", "*", "localhost"]
+
+CSRF_TRUSTED_ORIGINS = ["https://*.nova-doc.com"]
 
 DATABASES = {
     "default": {
