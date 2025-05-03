@@ -411,6 +411,10 @@ def transcription_provider_from_meeting_url_and_transcription_settings(url, sett
         return TranscriptionProviders.OPENAI
     elif "meeting_closed_captions" in settings:
         return TranscriptionProviders.CLOSED_CAPTION_FROM_PLATFORM
+    elif "di_whisper_v3_turbo" in settings:
+        return TranscriptionProviders.DI_WHISPER_V3_TURBO
+    elif "di_whisper_v3" in settings:
+        return TranscriptionProviders.DI_WHISPER_V3
 
     # Return default provider. Which is deepgram for Zoom, and meeting_closed_captions for Google Meet / Teams
     if meeting_type_from_url(url) == MeetingTypes.ZOOM:

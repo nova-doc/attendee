@@ -292,7 +292,7 @@ class BotController:
         if self.bot_in_db.rtmp_destination_url():
             self.pipeline_configuration = PipelineConfiguration.rtmp_streaming_bot()
         else:
-            self.pipeline_configuration = PipelineConfiguration.recorder_bot()
+            self.pipeline_configuration = PipelineConfiguration.voice_agent()
 
     def get_gstreamer_sink_type(self):
         if self.pipeline_configuration.rtmp_stream_audio or self.pipeline_configuration.rtmp_stream_video:

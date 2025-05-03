@@ -571,7 +571,7 @@ class BotEventManager:
             "to": BotStates.ENDED,
         },
         BotEventTypes.DATA_DELETED: {
-            "from": [BotStates.FATAL_ERROR, BotStates.ENDED],
+            "from": [BotStates.FATAL_ERROR, BotStates.ENDED, BotStates.LEAVING],
             "to": BotStates.DATA_DELETED,
         },
     }
@@ -816,7 +816,8 @@ class TranscriptionProviders(models.IntegerChoices):
     CLOSED_CAPTION_FROM_PLATFORM = 2, "Closed Caption From Platform"
     GLADIA = 3, "Gladia"
     OPENAI = 4, "OpenAI"
-
+    DI_WHISPER_V3_TURBO = 5, "DeepInfra Whisper Large V3 Turbo"
+    DI_WHISPER_V3 = 6, "DeepInfra Whisper Large V3"
 
 from storages.backends.s3boto3 import S3Boto3Storage
 

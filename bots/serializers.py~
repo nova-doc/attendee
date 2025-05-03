@@ -553,7 +553,6 @@ class TranscriptUtteranceSerializer(serializers.Serializer):
     timestamp_ms = serializers.IntegerField()
     duration_ms = serializers.IntegerField()
     transcription = serializers.JSONField()
-    updated_at = serializers.CharField()
 
 
 @extend_schema_serializer(

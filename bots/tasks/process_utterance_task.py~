@@ -50,6 +50,7 @@ def process_utterance(self, utterance_id):
 
 
 def get_transcription_via_gladia(utterance):
+    print("transcribe gladia")
     recording = utterance.recording
     gladia_credentials_record = recording.bot.project.credentials.filter(credential_type=Credentials.CredentialTypes.GLADIA).first()
     if not gladia_credentials_record:
