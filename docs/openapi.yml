@@ -637,6 +637,13 @@ components:
               required:
               - model
               additionalProperties: false
+            di_whisper_v3_turbo:
+              type: object
+              properties:
+                language:
+                  type: string
+                  description: 'The language code for transcription (e.g. ''en'').
+                    See here for available languages: https://developers.deepgram.com/docs/models-languages-overview'
           required: []
           description: 'The transcription settings for the bot, e.g. {''deepgram'':
             {''language'': ''en''}}'

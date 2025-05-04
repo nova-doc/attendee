@@ -223,6 +223,10 @@ class Bot(models.Model):
     def google_meet_closed_captions_language(self):
         return self.settings.get("transcription_settings", {}).get("meeting_closed_captions", {}).get("google_meet_language", None)
 
+    def whisper_v3_transcription_host(self):
+        return self.settings.get("transcription_settings", {}).get("whisper", {}).get("host", "groq")
+
+
     def rtmp_destination_url(self):
         rtmp_settings = self.settings.get("rtmp_settings")
         if not rtmp_settings:

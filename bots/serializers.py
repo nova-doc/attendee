@@ -284,7 +284,7 @@ class CreateBotSerializer(serializers.Serializer):
             "di_whisper_v3_turbo": {
                 "type": "object",
                 "properties": {
-                    "google_meet_language": {"type": "string"},
+                    "language": {"type": "string"},
                 },
                 "required": [],
                 "additionalProperties": False,

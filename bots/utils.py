@@ -3,6 +3,12 @@ import io
 import cv2
 import numpy as np
 from pydub import AudioSegment
+import sys
+import wave
+import logging
+import time
+import os
+import uuid
 
 from .models import (
     MeetingTypes,
@@ -50,6 +56,80 @@ def pcm_to_mp3(
     buffer.close()
 
     return mp3_data
+
+def pcm_to_wav(
+    pcm_data: bytes,
+    sample_rate: int = 32000,
+    channels: int = 1,
+    sample_width: int = 2,
+    bitrate: str = "128k",
+) -> bytes:
+    start_time = time.time()
+    
+    buffer = io.BytesIO()
+    with wave.open(buffer, 'wb') as wavfile:
+        wavfile.setparams((channels, sample_width, sample_rate, 0, 'NONE', 'NONE'))
+        wavfile.writeframes(pcm_data)
+    wav = buffer.getvalue()
+    buffer.close()
+    
+    # Save the wav file to the tmp directory that's accessible in Docker
+    # In Docker, we should use an absolute path or one relative to the container's structure
+    # tmp_path = '/tmp'  # Standard tmp directory in Linux containers
+    # wav_filename = f"{uuid.uuid4()}.wav"
+    # full_path = os.path.join(tmp_path, wav_filename)
+    #
+    # try:
+    #     with open(full_path, 'wb') as f:
+    #         f.write(wav)
+    #     logging.info(f"WAV file saved to {full_path}")
+    # except Exception as e:
+    #     logging.error(f"Failed to save WAV file to {full_path}: {str(e)}")
+    #
+    # execution_time = time.time() - start_time
+    # logging.info(f"pcm_to_wav execution time: {execution_time:.4f} seconds")
+    
+    return wav
+
+def pcm_to_m4a(
+    pcm_data: bytes,
+    sample_rate: int = 32000,
+    channels: int = 1,
+    sample_width: int = 2,
+    bitrate: str = "128k",
+) -> bytes:
+    """
+    Convert PCM audio data to m4a format.
+
+    Args:
+        pcm_data (bytes): Raw PCM audio data
+        sample_rate (int): Sample rate in Hz (default: 32000)
+        channels (int): Number of audio channels (default: 1)
+        sample_width (int): Sample width in bytes (default: 2)
+        bitrate (str): MP3 encoding bitrate (default: "128k")
+
+    Returns:
+        bytes: m4a encoded audio data
+    """
+    # Create AudioSegment from raw PCM data
+    audio_segment = AudioSegment(
+        data=pcm_data,
+        sample_width=sample_width,
+        frame_rate=sample_rate,
+        channels=channels,
+    )
+
+    # Create a bytes buffer to store the MP3 data
+    buffer = io.BytesIO()
+
+    # Export the audio segment as MP3 to the buffer with specified bitrate
+    audio_segment.export(buffer, format="ipod", parameters=["-b:a", bitrate])
+
+    # Get the m4a data as bytes
+    m4a_data = buffer.getvalue()
+    buffer.close()
+
+    return m4a_data
 
 
 def mp3_to_pcm(mp3_data: bytes, sample_rate: int = 32000, channels: int = 1, sample_width: int = 2) -> bytes:

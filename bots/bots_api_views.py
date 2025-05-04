@@ -710,8 +710,6 @@ class TranscriptView(APIView):
 
             # Apply updated_after filter if provided
             updated_after = request.query_params.get("updated_after")
-            logging.info("-------")
-            logging.info(updated_after)
             if updated_after:
                 try:
                     updated_after_datetime = parse_datetime(str(updated_after))
@@ -723,8 +721,6 @@ class TranscriptView(APIView):
                         {"error": "Invalid updated_after format. Use ISO 8601 format (e.g., 2024-01-18T12:34:56Z)"},
                         status=status.HTTP_400_BAD_REQUEST,
                     )
-                logging.info("-------")
-                logging.info(updated_after_datetime)
                 utterances_query = utterances_query.filter(updated_at__gt=updated_after_datetime)
 
             # Apply ordering
